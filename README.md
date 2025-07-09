@@ -21,13 +21,13 @@ To get started with this project, follow these steps:
 1. **Clone the repository:**
 
    ```bash
-   git clone [https://github.com/typiconman/AstroEasterPy](https://github.com/typiconman/AstroEasterPy)
+   git clone https://github.com/typiconman/AstroEasterPy
    cd AstroEasterPy
    ```
 
 2. **Create a virtual environment (recommended):**
 
-It's good practice to use a virtual environment to manage project dependencies.
+   It's good practice to use a virtual environment to manage project dependencies.
 
    ```bash
    python -m venv venv

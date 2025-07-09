@@ -144,4 +144,4 @@ if __name__ == "__main__":
     full_moon_mst = mean_solar_time_utc(full_moon, longitude)
     print("Paschal full moon (solar time at Jerusalem):", full_moon_mst.strftime('%Y-%m-%d %H:%M:%S'))
     next_sunday = next_sunday_after_mean_solar_time(full_moon_mst)
-    print(f"Pascha in {year} is on {next_sunday}")
+    print(f"Easter in {year} is on {next_sunday}")
