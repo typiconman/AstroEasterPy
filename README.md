@@ -73,6 +73,10 @@ To find the astronomical Easter date for the year 2025:
 python easter_calculator.py 2025
 ```
 
+**Limitations:**
+
+For dates between 1549 and 2650, use the data from Jet Propulsion Laboratory’s (JPL) DE440 ephemeris, provided in the `de440.bsp` file (it will be downloaded the first time you run the program). For dates outside of this range, but between the years 3001 BC and 3000 AD, data from the older JPL DE406 ephemeris are used, provided in the `de406.bsp` file (again, downloaded as needed). Dates outside of this range will result in an error `skyfield.errors.EphemerisRangeError`. Results too far into the future should not be viewed as completely reliable due to uncertainty in [Delta T](https://eclipse.gsfc.nasa.gov/SEcat5/deltatpoly.html).
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
