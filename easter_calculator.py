@@ -2,7 +2,6 @@ from skyfield.api import load
 from scipy.optimize import brentq
 import numpy as np
 import datetime
-from datetime import timedelta
 
 def load_ephemeris_for_year(year):
     """Load de440.bsp for 1549 <= year <= 2650, otherwise load de406.bsp."""
@@ -13,7 +12,7 @@ def load_ephemeris_for_year(year):
     return eph
 
 def vernal_equinox(ts, eph, year):
-    """Returns the a Skyfield Time Object with the instant of the vernal equinox for year"""
+    """Returns a Skyfield Time Object with the instant of the vernal equinox for year"""
     earth = eph['earth']
     sun = eph['sun']
 
@@ -96,7 +95,7 @@ def mean_solar_time_utc(time, longitude_deg):
     # Offset in minutes: 4 min per degree east
     offset_minutes = longitude_deg * 4
     # Compute mean solar time
-    mst = dt_utc + timedelta(minutes=offset_minutes)
+    mst = dt_utc + datetime.timedelta(minutes=offset_minutes)
     return mst
 
 def next_sunday_after_mean_solar_time(time):
@@ -118,16 +117,22 @@ def next_sunday_after_mean_solar_time(time):
     next_sunday = dt + datetime.timedelta(days=days_until_sunday)
     return next_sunday.date().strftime("%B %d")
 
-# Example usage:
-if __name__ == "__main__":
+def main():
     import sys
-    if len(sys.argv) == 2:
-        year = int(sys.argv[1])
-    else:
-        year = 2025  # Default
-        print("Usage: pascha-skyfield year. Year not specified, assuming 2025.")
 
-    longitude = 35.2298  # degrees East
+    # Parse year argument
+    if len(sys.argv) == 2:
+        try:
+            year = int(sys.argv[1])
+        except ValueError:
+            print("Year must be an integer.")
+            sys.exit(1)
+    else:
+        print("Usage: python easter_calculator.py <year>")
+        print("Year not specified, assuming 2025.")
+        year = 2025
+
+    longitude = 35.2298  # Jerusalem longitude in degrees East
     ts = load.timescale()
     eph = load_ephemeris_for_year(year)
 
@@ -135,13 +140,18 @@ if __name__ == "__main__":
     print("Vernal Equinox (UTC):", ve_time.utc_datetime().strftime('%Y-%m-%d %H:%M:%S'))
     ve_mst = mean_solar_time_utc(ve_time, longitude)
     print("Vernal Equinox (solar time at Jerusalem):", ve_mst.strftime('%Y-%m-%d %H:%M:%S'))
+
     full_moon = get_first_full_moon_after(ts, eph, ve_time)
     if full_moon is None:
         print("Error: a full moon was not found. Exiting.")
-        sys.exit()
+        sys.exit(1)
 
     print("Paschal full moon (UTC):", full_moon.utc_datetime().strftime('%Y-%m-%d %H:%M:%S'))
     full_moon_mst = mean_solar_time_utc(full_moon, longitude)
     print("Paschal full moon (solar time at Jerusalem):", full_moon_mst.strftime('%Y-%m-%d %H:%M:%S'))
+
     next_sunday = next_sunday_after_mean_solar_time(full_moon_mst)
     print(f"Easter in {year} is on {next_sunday}")
+
+if __name__ == "__main__":
+    main()
