@@ -77,6 +77,14 @@ python easter_calculator.py 2025
 
 For dates between 1549 and 2650, we use the data from Jet Propulsion Laboratory’s (JPL) DE440 ephemeris, provided in the `de440.bsp` file (it will be downloaded the first time you run the program). For dates outside of this range, but between the years 3001 BC and 3000 AD, data from the older JPL DE406 ephemeris are used, provided in the `de406.bsp` file (again, downloaded as needed). Dates outside of this range will result in an error `skyfield.errors.EphemerisRangeError`. Results too far into the future should not be viewed as completely reliable due to uncertainty in [Delta T](https://eclipse.gsfc.nasa.gov/SEcat5/deltat.html).
 
+In addition to this, the script `table_paper.py` creates the table of
+Easter dates from 2025 to 2075 that is found in the author's paper.
+Usage:
+
+```bash
+python table_paper.py
+```
+
 ## 📄 License
 
 This project is licensed under the [MIT License](LICENSE).
